@@ -26,6 +26,10 @@ export default function QuizzPage() {
             });
     }, []);
 
+    useEffect(() => {
+        setUserAnswers(Array(NB_QUESTIONS).fill(null));
+    }, [questions])
+
     function fetchQuestions() {
         axios
             .get(ENDPOINTS.QUESTIONS(NB_QUESTIONS, selectedCategory.id, difficulty.toLowerCase()))
@@ -45,7 +49,7 @@ export default function QuizzPage() {
     const handleDifficultyChange = (newDiff) => {
         setDifficulty(newDiff.label);
     };
-    console.log(userAnswers);
+    
     return (<>
         <h2>Quiz Maker</h2>
         <SelectList
@@ -59,7 +63,7 @@ export default function QuizzPage() {
             currentValue={difficulty}
             onChangeHandler={handleDifficultyChange}
             placeholder='Select difficulty'
-            id =' difficultySelect' />
+            id = 'difficultySelect' />
         <button onClick={fetchQuestions} disabled={!selectedCategory && !difficulty}>
             Create
         </button>
@@ -67,6 +71,8 @@ export default function QuizzPage() {
             <QuestionsBox key={questions.map(q => q.title).join('-')}
             questions={questions}
             setUserAnswers={setUserAnswers} />}
+        {!userAnswers.includes(null) &&
+            <button>Submit</button>}
     </>);
 }
 
