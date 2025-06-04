@@ -1,0 +1,19 @@
+#categorySelect, #difficultySelect {
+    width: 30%;
+    margin-right: 10px;
+}
+
+.selectLine {
+    display: flex;
+}
+
+.submitButton {
+    display: flex;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.quizzQuestions button:hover {
+    background-color: green !important;
+    color: white !important;
+}
