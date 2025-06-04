@@ -7,7 +7,9 @@ import { BUTTON_ID, CATEGORY_ID, CATEGORY_PLACEHOLDER, CREATE_TEXT, DIFFICULTIES
 import Question from "./question.js";
 import QuestionsBox from "./questionsBox.js";
 import { useNavigate } from "react-router";
-import TitleBar from "../utils/titleBar.js";
+import TitleBar from "../utils/title/titleBar.js";
+import './quizzPage.css';
+import '../common.css';
 
 export default function QuizzPage() {
     const navigate = useNavigate();
@@ -68,29 +70,37 @@ export default function QuizzPage() {
     
     return (<>
         <TitleBar title={MAIN_TITLE} />
-        <SelectList
-            options={categories.map((a) => ({value: a.id, label: a.name}))} 
-            onChangeHandler={handleCategoryChange}
-            placeholder={CATEGORY_PLACEHOLDER}
-            id = {CATEGORY_ID} />
-        <SelectList
-            options={DIFFICULTIES.map((d) => ({value: d, label: d}))}
-            onChangeHandler={handleDifficultyChange}
-            placeholder={DIFFICULTY_PLACEHOLDER}
-            id = {DIFFICULTY_ID} />
-        <button onClick={fetchQuestions}
-            disabled={!(selectedCategory && difficulty)}
-            id = {BUTTON_ID}>
-            {CREATE_TEXT}
-        </button>
+        <section>
+            <div className="selectLine">
+                <SelectList
+                    options={categories.map((a) => ({value: a.id, label: a.name}))} 
+                    onChangeHandler={handleCategoryChange}
+                    placeholder={CATEGORY_PLACEHOLDER}
+                    id = {CATEGORY_ID} />
+                <SelectList
+                    options={DIFFICULTIES.map((d) => ({value: d, label: d}))}
+                    onChangeHandler={handleDifficultyChange}
+                    placeholder={DIFFICULTY_PLACEHOLDER}
+                    id = {DIFFICULTY_ID} />
+                <button onClick={fetchQuestions}
+                    disabled={!(selectedCategory && difficulty)}
+                    id = {BUTTON_ID}>
+                    {CREATE_TEXT}
+                </button>
+            </div>
 
-        {questions.length === NB_QUESTIONS && <>
-            <QuestionsBox key={questions.map(q => q.title).join('-')}
-                questions={questions}
-                setUserAnswers={setUserAnswers} />
+            <div className="quizzQuestions">
+                {questions.length === NB_QUESTIONS &&
+                    <QuestionsBox key={questions.map(q => q.title).join('-')}
+                        questions={questions}
+                        setUserAnswers={setUserAnswers} />}
+            </div>
+            
+            <div className="submitButton">
                 {!userAnswers.includes(null) &&
                     <button onClick={goToResults}>{SUBMIT_TEXT}</button>}
-        </>}
+            </div>
+        </section>
     </>);
 }
 

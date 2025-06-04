@@ -4,6 +4,8 @@ class Utils {
         .replace(/&#039;/g, "'")
         .replace(/&rsquo;/g, "'")
         .replace(/&quot;/g, '"')
+        .replace(/&ldquo;/g, '"')
+        .replace(/&rdquo;/g, '"')
         .replace(/&amp;/g, '&')
         .replace(/&euml;/g, 'ë')
         .replace(/&aacute;/g, 'á')
@@ -11,7 +13,8 @@ class Utils {
         .replace(/&ntilde;/g, 'ñ')
         .replace(/&auml;/g, 'ä')
         .replace(/&ouml;/g, 'ö')
-        .replace(/&uuml;/g, 'ü');
+        .replace(/&uuml;/g, 'ü')
+        .replace(/&hellip;/g, '...');
     }
 }
 

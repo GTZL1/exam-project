@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router";
 import Question from "../quizz/question";
 import QuestionsBox from "../quizz/questionsBox";
-import { CORRECT_BACKGROUND, MID_BACKGROUND, SCORE_MESSAGE, WRONG_BACKGROUND } from "../constants/constants";
+import { CORRECT_BACKGROUND, MID_BACKGROUND, NEW_QUIZ_TEXT, RESULTS_TITLE, SCORE_MESSAGE, WRONG_BACKGROUND } from "../constants/constants";
 import ENDPOINTS from "../constants/endpoints";
+import TitleBar from "../utils/title/titleBar";
 
 export default function ResultPage() {
     const location = useLocation();
@@ -19,15 +20,17 @@ export default function ResultPage() {
     }, [questionsRaw]);
     
     return (<>
-        <h2>Your results</h2>
-        {questions && <>
-            <QuestionsBox questions={questions}
-                userAnswers={userAnswers}
-                isNotClickable={true} />
-            <ScoreBox questions={questions}
-                userAnswers={userAnswers} />
-        </>}
-        <Link to={ENDPOINTS.MAIN}><button>Create a new quiz</button></Link>
+        <TitleBar title={RESULTS_TITLE} />
+        <section>
+            {questions && <>
+                <QuestionsBox questions={questions}
+                    userAnswers={userAnswers}
+                    isNotClickable={true} />
+                <ScoreBox questions={questions}
+                    userAnswers={userAnswers} />
+            </>}
+            <Link to={ENDPOINTS.MAIN}><button>{NEW_QUIZ_TEXT}</button></Link>
+        </section>
     </>);
 }
 

@@ -10,6 +10,7 @@ export const DIFFICULTY_ID = 'difficultySelect';
 export const BUTTON_ID = 'createBtn';
 export const CREATE_TEXT = 'Create';
 export const SUBMIT_TEXT = 'Submit';
+export const NEW_QUIZ_TEXT = 'Create a new quiz';
 export const SCORE_MESSAGE = (score) => `You scored ${score} out of ${NB_QUESTIONS}`;
 
 export const WRONG_BACKGROUND = 'red';
