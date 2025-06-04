@@ -2,7 +2,7 @@ import React, {useState } from "react";
 
 export default function QuestionsBox({questions, setUserAnswers}) {
     return (<>
-        {questions.map((question, index) => <div>
+        {questions.map((question, index) => <div key={index}>
             <p>{question.title}</p>
             <div>
                 <Answers answers={question.allAnswers}

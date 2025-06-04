@@ -6,8 +6,11 @@ import Select from 'react-select';
 import { DIFFICULTIES, NB_QUESTIONS } from "../constants/constants.js";
 import Question from "./question.js";
 import QuestionsBox from "./questionsBox.js";
+import { Link, useNavigate } from "react-router";
 
 export default function QuizzPage() {
+    const navigate = useNavigate();
+
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [difficulty, setDifficulty] = useState(null);
@@ -28,7 +31,7 @@ export default function QuizzPage() {
 
     useEffect(() => {
         setUserAnswers(Array(NB_QUESTIONS).fill(null));
-    }, [questions])
+    }, [questions]);
 
     function fetchQuestions() {
         axios
@@ -49,6 +52,18 @@ export default function QuizzPage() {
     const handleDifficultyChange = (newDiff) => {
         setDifficulty(newDiff.label);
     };
+
+    function goToResults() {
+        navigate(ENDPOINTS.RESULT_PAGE, {
+            state: {
+                userAnswers,
+                questionsRaw: questions.map(question => ({
+                    title: question.title,
+                    correctAnswer: question.correctAnswer,
+                    allAnswers: question.allAnswers})
+            )}
+        });
+    }
     
     return (<>
         <h2>Quiz Maker</h2>
@@ -67,12 +82,14 @@ export default function QuizzPage() {
         <button onClick={fetchQuestions} disabled={!selectedCategory && !difficulty}>
             Create
         </button>
-        {questions.length === NB_QUESTIONS &&
+        {questions.length === NB_QUESTIONS && <>
             <QuestionsBox key={questions.map(q => q.title).join('-')}
-            questions={questions}
-            setUserAnswers={setUserAnswers} />}
-        {!userAnswers.includes(null) &&
-            <button>Submit</button>}
+                questions={questions}
+                setUserAnswers={setUserAnswers} />
+
+                {!userAnswers.includes(null) &&
+                    <button onClick={goToResults}>Submit</button>}
+            </>}
     </>);
 }
 
