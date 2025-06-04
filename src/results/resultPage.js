@@ -5,6 +5,8 @@ import QuestionsBox from "../quizz/questionsBox";
 import { CORRECT_BACKGROUND, MID_BACKGROUND, NEW_QUIZ_TEXT, RESULTS_TITLE, SCORE_MESSAGE, WRONG_BACKGROUND } from "../constants/constants";
 import ENDPOINTS from "../constants/endpoints";
 import TitleBar from "../utils/title/titleBar";
+import './resultPage.css';
+import '../common.css';
 
 export default function ResultPage() {
     const location = useLocation();
@@ -29,7 +31,9 @@ export default function ResultPage() {
                 <ScoreBox questions={questions}
                     userAnswers={userAnswers} />
             </>}
-            <Link to={ENDPOINTS.MAIN}><button>{NEW_QUIZ_TEXT}</button></Link>
+            <div>
+                <Link to={ENDPOINTS.MAIN}><button>{NEW_QUIZ_TEXT}</button></Link>
+            </div>
         </section>
     </>);
 }
@@ -43,7 +47,7 @@ function ScoreBox({questions, userAnswers}) {
     const correctCount = questions.filter((q, i) =>
         userAnswers[i] === q.correctAnswer).length;
 
-    return <div style={{backgroundColor : backgroundColor(correctCount)}}>
+    return <div className="scoreBox" style={{backgroundColor : backgroundColor(correctCount)}}>
         {SCORE_MESSAGE(correctCount)}
     </div>
 }
