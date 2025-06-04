@@ -12,6 +12,9 @@ export const CREATE_TEXT = 'Create';
 export const SUBMIT_TEXT = 'Submit';
 export const SCORE_MESSAGE = (score) => `You scored ${score} out of ${NB_QUESTIONS}`;
 
-export const WRONG_BACKGROUND = "red";
-export const CORRECT_BACKGROUND = "green";
-export const MID_BACKGROUND = "yellow";
+export const WRONG_BACKGROUND = 'red';
+export const CORRECT_BACKGROUND = 'green';
+export const MID_BACKGROUND = 'yellow';
+
+export const WHITE_COLOR = 'white';
+export const BLACK_COLOR = 'black';

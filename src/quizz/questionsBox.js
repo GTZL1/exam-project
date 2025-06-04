@@ -1,5 +1,5 @@
 import React, {useState } from "react";
-import { CORRECT_BACKGROUND, WRONG_BACKGROUND } from "../constants/constants";
+import { BLACK_COLOR, CORRECT_BACKGROUND, WHITE_COLOR, WRONG_BACKGROUND } from "../constants/constants";
 
 export default function QuestionsBox({questions, userAnswers = [], setUserAnswers = () => {}, isNotClickable = false}) {
     return (<>
@@ -33,21 +33,25 @@ function Answers({answers, userAnswers, setUserAnswers, correctAnswer, questionI
             } else if (userAnswers[questionIndex] === answers[answerIndex]) {
                 return WRONG_BACKGROUND;
             }
+            return WHITE_COLOR;
         } else {
-            return (selected === answerIndex) ? CORRECT_BACKGROUND : "";
+            return (selected === answerIndex) ? CORRECT_BACKGROUND : WHITE_COLOR;
         }
     }
 
-    return answers.map((answer, index) => (
-        <button
+    return answers.map((answer, index) => {
+        const bgColor = determineBackgroundColor(index);
+        console.log(bgColor);
+        return (<button
             key={index}
             onClick={() => onClickHandler(index, answer)}
             disabled={isNotClickable}
             style={{
-                backgroundColor: determineBackgroundColor(index),
-                fontWeight: selected === index ? "bold" : "normal"
+                backgroundColor: bgColor,
+                color : bgColor !== WHITE_COLOR ? WHITE_COLOR : BLACK_COLOR
             }}>
             {answer}
         </button>
-    ));
+        );
+    });
 }

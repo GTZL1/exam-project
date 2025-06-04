@@ -88,10 +88,9 @@ export default function QuizzPage() {
             <QuestionsBox key={questions.map(q => q.title).join('-')}
                 questions={questions}
                 setUserAnswers={setUserAnswers} />
-
                 {!userAnswers.includes(null) &&
                     <button onClick={goToResults}>{SUBMIT_TEXT}</button>}
-            </>}
+        </>}
     </>);
 }
 
