@@ -5,12 +5,14 @@ import Category from "./category.js";
 import Select from 'react-select';
 import { DIFFICULTIES, NB_QUESTIONS } from "../constants/constants.js";
 import Question from "./question.js";
+import QuestionsBox from "./questionsBox.js";
 
 export default function QuizzPage() {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [difficulty, setDifficulty] = useState(null);
     const [questions, setQuestions] = useState([]);
+    const [userAnswers, setUserAnswers] = useState(Array(NB_QUESTIONS).fill(null));
 
     useEffect(() => {
         axios
@@ -43,9 +45,9 @@ export default function QuizzPage() {
     const handleDifficultyChange = (newDiff) => {
         setDifficulty(newDiff.label);
     };
-
+    console.log(userAnswers);
     return (<>
-        <h2>Quizz Maker</h2>
+        <h2>Quiz Maker</h2>
         <SelectList
             options={categories.map((a) => ({value: a.id, label: a.name}))} 
             currentValue={selectedCategory !== null ? selectedCategory.name : null}
@@ -61,6 +63,10 @@ export default function QuizzPage() {
         <button onClick={fetchQuestions} disabled={!selectedCategory && !difficulty}>
             Create
         </button>
+        {questions.length === NB_QUESTIONS &&
+            <QuestionsBox key={questions.map(q => q.title).join('-')}
+            questions={questions}
+            setUserAnswers={setUserAnswers} />}
     </>);
 }
 

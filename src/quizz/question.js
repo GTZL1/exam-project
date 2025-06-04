@@ -1,3 +1,5 @@
+import Utils from "../utils/utils";
+
 class Question {
     #title;
     #correctAnswer;
@@ -5,9 +7,9 @@ class Question {
     #allAnswers;
 
     constructor(title, correctAnswer, incorrectAnswers) {
-        this.#title = title;
-        this.#correctAnswer = correctAnswer;
-        this.#incorrectAnswers = incorrectAnswers;
+        this.#title = Utils.decodeHtmlEntities(title);
+        this.#correctAnswer = Utils.decodeHtmlEntities(correctAnswer);
+        this.#incorrectAnswers = incorrectAnswers.map((wa) => Utils.decodeHtmlEntities(wa));
         this.#allAnswers = this.#concatenateAndShuffleAnswers([...this.#incorrectAnswers, this.#correctAnswer]);
     }
 
