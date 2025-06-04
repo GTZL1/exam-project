@@ -18,6 +18,7 @@ export default function ResultPage() {
         <h2>Your results</h2>
         {questions &&
             <QuestionsBox questions={questions}
-            isNotClickable="true" />}
+            userAnswers={userAnswers}
+            isNotClickable={true} />}
     </>);
 }

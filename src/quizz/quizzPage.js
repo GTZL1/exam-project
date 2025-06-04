@@ -6,7 +6,7 @@ import Select from 'react-select';
 import { DIFFICULTIES, NB_QUESTIONS } from "../constants/constants.js";
 import Question from "./question.js";
 import QuestionsBox from "./questionsBox.js";
-import { Link, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 export default function QuizzPage() {
     const navigate = useNavigate();
@@ -79,7 +79,7 @@ export default function QuizzPage() {
             onChangeHandler={handleDifficultyChange}
             placeholder='Select difficulty'
             id = 'difficultySelect' />
-        <button onClick={fetchQuestions} disabled={!selectedCategory && !difficulty}>
+        <button onClick={fetchQuestions} disabled={!(selectedCategory && difficulty)}>
             Create
         </button>
         {questions.length === NB_QUESTIONS && <>
