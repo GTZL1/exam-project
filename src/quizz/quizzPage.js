@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
-import ENDPOINTS from "../constants/endpoints";
+import ENDPOINTS from "../constants/endpoints.js";
 import Category from "./category.js";
 import Select from 'react-select';
-import { DIFFICULTIES } from "../constants/constants.js";
+import { DIFFICULTIES, NB_QUESTIONS } from "../constants/constants.js";
+import Question from "./question.js";
 
-export default function MainPage() {
+export default function QuizzPage() {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [difficulty, setDifficulty] = useState(null);
+    const [questions, setQuestions] = useState([]);
 
     useEffect(() => {
         axios
@@ -22,6 +24,18 @@ export default function MainPage() {
             });
     }, []);
 
+    function fetchQuestions() {
+        axios
+            .get(ENDPOINTS.QUESTIONS(NB_QUESTIONS, selectedCategory.id, difficulty.toLowerCase()))
+            .then((response) => {
+                setQuestions(response.data.results.map((q) =>
+                    new Question(q.question, q.correct_answer, q.incorrect_answers)));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     const handleCategoryChange = (newCat) => {
         setSelectedCategory(new Category(newCat.value, newCat.label));
     };
@@ -33,8 +47,8 @@ export default function MainPage() {
     return (<>
         <h2>Quizz Maker</h2>
         <SelectList
-            options={categories.map((a) => ({value: a.getId(), label: a.getName()}))} 
-            currentValue={selectedCategory !== null ? selectedCategory.getName() : null}
+            options={categories.map((a) => ({value: a.id, label: a.name}))} 
+            currentValue={selectedCategory !== null ? selectedCategory.name : null}
             onChangeHandler={handleCategoryChange}
             placeholder='Select a category'
             id = 'categorySelect' />
@@ -44,13 +58,16 @@ export default function MainPage() {
             onChangeHandler={handleDifficultyChange}
             placeholder='Select difficulty'
             id =' difficultySelect' />
+        <button onClick={fetchQuestions} disabled={!selectedCategory && !difficulty}>
+            Create
+        </button>
     </>);
 }
 
 function SelectList ({options, currentValue, onChangeHandler, placeholder, id}) {
     return <Select
-        {...(currentValue !== null ?
-            {value: ({value : currentValue, label : currentValue})} : {})}
+        //{...(currentValue !== null ?
+            //{value: ({value : currentValue, label : currentValue})} : {})}
         id = {id}
         options={options}
         onChange={onChangeHandler}

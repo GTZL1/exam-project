@@ -7,11 +7,11 @@ class Category {
         this.#name = name;
     }
 
-    getId() {
+    get id() {
         return this.#id;
     }
 
-    getName() {
+    get name() {
         return this.#name;
     }
 }
