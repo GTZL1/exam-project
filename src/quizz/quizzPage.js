@@ -1,13 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios';
 import ENDPOINTS from "../constants/endpoints.js";
 import Category from "./category.js";
 import Select from 'react-select';
-import { DIFFICULTIES, NB_QUESTIONS } from "../constants/constants.js";
+import { BUTTON_ID, CATEGORY_ID, CATEGORY_PLACEHOLDER, CREATE_TEXT, DIFFICULTIES, DIFFICULTY_ID, DIFFICULTY_PLACEHOLDER, MAIN_TITLE, NB_QUESTIONS, SUBMIT_TEXT } from "../constants/constants.js";
 import Question from "./question.js";
 import QuestionsBox from "./questionsBox.js";
+import { useNavigate } from "react-router";
+import TitleBar from "../utils/titleBar.js";
 
 export default function QuizzPage() {
+    const navigate = useNavigate();
+
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [difficulty, setDifficulty] = useState(null);
@@ -28,7 +32,7 @@ export default function QuizzPage() {
 
     useEffect(() => {
         setUserAnswers(Array(NB_QUESTIONS).fill(null));
-    }, [questions])
+    }, [questions]);
 
     function fetchQuestions() {
         axios
@@ -49,43 +53,51 @@ export default function QuizzPage() {
     const handleDifficultyChange = (newDiff) => {
         setDifficulty(newDiff.label);
     };
+
+    function goToResults() {
+        navigate(ENDPOINTS.RESULT_PAGE, {
+            state: {
+                userAnswers,
+                questionsRaw: questions.map(question => ({
+                    title: question.title,
+                    correctAnswer: question.correctAnswer,
+                    allAnswers: question.allAnswers})
+            )}
+        });
+    }
     
     return (<>
-        <h2>Quiz Maker</h2>
+        <TitleBar title={MAIN_TITLE} />
         <SelectList
             options={categories.map((a) => ({value: a.id, label: a.name}))} 
-            currentValue={selectedCategory !== null ? selectedCategory.name : null}
             onChangeHandler={handleCategoryChange}
-            placeholder='Select a category'
-            id = 'categorySelect' />
+            placeholder={CATEGORY_PLACEHOLDER}
+            id = {CATEGORY_ID} />
         <SelectList
             options={DIFFICULTIES.map((d) => ({value: d, label: d}))}
-            currentValue={difficulty}
             onChangeHandler={handleDifficultyChange}
-            placeholder='Select difficulty'
-            id = 'difficultySelect' />
-        <button onClick={fetchQuestions} disabled={!selectedCategory && !difficulty}>
-            Create
+            placeholder={DIFFICULTY_PLACEHOLDER}
+            id = {DIFFICULTY_ID} />
+        <button onClick={fetchQuestions}
+            disabled={!(selectedCategory && difficulty)}
+            id = {BUTTON_ID}>
+            {CREATE_TEXT}
         </button>
-        {questions.length === NB_QUESTIONS &&
+
+        {questions.length === NB_QUESTIONS && <>
             <QuestionsBox key={questions.map(q => q.title).join('-')}
-            questions={questions}
-            setUserAnswers={setUserAnswers} />}
-        {!userAnswers.includes(null) &&
-            <button>Submit</button>}
+                questions={questions}
+                setUserAnswers={setUserAnswers} />
+                {!userAnswers.includes(null) &&
+                    <button onClick={goToResults}>{SUBMIT_TEXT}</button>}
+        </>}
     </>);
 }
 
-function SelectList ({options, currentValue, onChangeHandler, placeholder, id}) {
+function SelectList ({options, onChangeHandler, placeholder, id}) {
     return <Select
-        //{...(currentValue !== null ?
-            //{value: ({value : currentValue, label : currentValue})} : {})}
         id = {id}
         options={options}
         onChange={onChangeHandler}
-        placeholder = {placeholder}
-        required="true"
-        className="basic-select"
-        classNamePrefix="select"
-        menuPortalTarget={document.body} />
+        placeholder = {placeholder}/>
 }

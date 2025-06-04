@@ -6,18 +6,20 @@ class Question {
     #incorrectAnswers;
     #allAnswers;
 
-    constructor(title, correctAnswer, incorrectAnswers) {
+    constructor(title, correctAnswer, incorrectAnswers, allAnswers = null) {
         this.#title = Utils.decodeHtmlEntities(title);
         this.#correctAnswer = Utils.decodeHtmlEntities(correctAnswer);
-        this.#incorrectAnswers = incorrectAnswers.map((wa) => Utils.decodeHtmlEntities(wa));
-        this.#allAnswers = this.#concatenateAndShuffleAnswers([...this.#incorrectAnswers, this.#correctAnswer]);
+        this.#incorrectAnswers = incorrectAnswers ?
+            incorrectAnswers.map((wa) => Utils.decodeHtmlEntities(wa)) : [];
+        this.#allAnswers = allAnswers ? allAnswers :
+            this.#concatenateAndShuffleAnswers([...this.#incorrectAnswers, this.#correctAnswer]);
     }
 
     get title() {
         return this.#title;
     }
 
-    get correctAnswers() {
+    get correctAnswer() {
         return this.#correctAnswer;
     }
 
