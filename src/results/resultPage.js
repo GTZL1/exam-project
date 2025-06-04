@@ -20,14 +20,14 @@ export default function ResultPage() {
     
     return (<>
         <h2>Your results</h2>
-        {questions && <div key={location.state}>
+        {questions && <>
             <QuestionsBox questions={questions}
                 userAnswers={userAnswers}
                 isNotClickable={true} />
             <ScoreBox questions={questions}
                 userAnswers={userAnswers} />
-        </div>}
-        <Link to={ENDPOINTS.MAIN}><button onClick={() => setQuestions(null)}>Create a new quiz</button></Link>
+        </>}
+        <Link to={ENDPOINTS.MAIN}><button>Create a new quiz</button></Link>
     </>);
 }
 
