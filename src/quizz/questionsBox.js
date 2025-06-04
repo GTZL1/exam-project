@@ -1,4 +1,5 @@
 import React, {useState } from "react";
+import { CORRECT_BACKGROUND, WRONG_BACKGROUND } from "../constants/constants";
 
 export default function QuestionsBox({questions, userAnswers = [], setUserAnswers = () => {}, isNotClickable = false}) {
     return (<>
@@ -27,11 +28,13 @@ function Answers({answers, userAnswers, setUserAnswers, correctAnswer, questionI
 
     function determineBackgroundColor(answerIndex) {
         if(userAnswers.length > 0) {
-            if (userAnswers[questionIndex] === answers[answerIndex]) {
-                return (userAnswers[questionIndex] === correctAnswer) ? "green" : "red";
+            if (answers[answerIndex] === correctAnswer) {
+                return CORRECT_BACKGROUND;
+            } else if (userAnswers[questionIndex] === answers[answerIndex]) {
+                return WRONG_BACKGROUND;
             }
         } else {
-            return (selected === answerIndex) ? "green" : "";
+            return (selected === answerIndex) ? CORRECT_BACKGROUND : "";
         }
     }
 
