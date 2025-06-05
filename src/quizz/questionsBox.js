@@ -41,7 +41,6 @@ function Answers({answers, userAnswers, setUserAnswers, correctAnswer, questionI
 
     return answers.map((answer, index) => {
         const bgColor = determineBackgroundColor(index);
-        console.log(bgColor);
         return (<button
             key={index}
             onClick={() => onClickHandler(index, answer)}

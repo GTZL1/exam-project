@@ -1,0 +1,12 @@
+.scoreBox {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.scoreBox + div {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
