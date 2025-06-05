@@ -109,5 +109,5 @@ function SelectList ({options, onChangeHandler, placeholder, id}) {
         id = {id}
         options={options}
         onChange={onChangeHandler}
-        placeholder = {placeholder}/>
+        placeholder = {placeholder} />
 }
