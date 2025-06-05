@@ -19,6 +19,7 @@ export default function ResultPage() {
             setQuestions(questionsRaw.map(qRaw =>
                 new Question(qRaw.title, qRaw.correctAnswer, null, qRaw.allAnswers)));
         }
+        return () => setQuestions(null);
     }, [questionsRaw]);
     
     return (<>

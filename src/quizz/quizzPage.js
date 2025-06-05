@@ -3,7 +3,7 @@ import axios from 'axios';
 import ENDPOINTS from "../constants/endpoints.js";
 import Category from "./category.js";
 import Select from 'react-select';
-import { BUTTON_ID, CATEGORY_ID, CATEGORY_PLACEHOLDER, CREATE_TEXT, DIFFICULTIES, DIFFICULTY_ID, DIFFICULTY_PLACEHOLDER, MAIN_TITLE, NB_QUESTIONS, SUBMIT_TEXT } from "../constants/constants.js";
+import { CATEGORY_PLACEHOLDER, CREATE_TEXT, DIFFICULTIES, DIFFICULTY_PLACEHOLDER, MAIN_TITLE, NB_QUESTIONS, SUBMIT_TEXT } from "../constants/constants.js";
 import Question from "./question.js";
 import QuestionsBox from "./questionsBox.js";
 import { useNavigate } from "react-router";
@@ -48,11 +48,11 @@ export default function QuizzPage() {
             });
     }
 
-    const handleCategoryChange = (newCat) => {
+    function handleCategoryChange(newCat) {
         setSelectedCategory(new Category(newCat.value, newCat.label));
     };
 
-    const handleDifficultyChange = (newDiff) => {
+    function handleDifficultyChange(newDiff) {
         setDifficulty(newDiff.label);
     };
 
@@ -76,15 +76,15 @@ export default function QuizzPage() {
                     options={categories.map((a) => ({value: a.id, label: a.name}))} 
                     onChangeHandler={handleCategoryChange}
                     placeholder={CATEGORY_PLACEHOLDER}
-                    id = {CATEGORY_ID} />
+                    id = "categorySelect" />
                 <SelectList
                     options={DIFFICULTIES.map((d) => ({value: d, label: d}))}
                     onChangeHandler={handleDifficultyChange}
                     placeholder={DIFFICULTY_PLACEHOLDER}
-                    id = {DIFFICULTY_ID} />
+                    id = "difficultySelect" />
                 <button onClick={fetchQuestions}
                     disabled={!(selectedCategory && difficulty)}
-                    id = {BUTTON_ID}>
+                    id = "createBtn">
                     {CREATE_TEXT}
                 </button>
             </div>
